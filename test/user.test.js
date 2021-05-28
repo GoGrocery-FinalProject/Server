@@ -8,7 +8,8 @@ describe('Testing Register', () => {
         const body = {
             name: '',
             email: 'sistazroel@mail.com',
-            password: 'zroelzroelzroel'
+            password: 'zroelzroelzroel',
+            phone_number: '081908910918'
         }
         request(app)
             .post('/register')
@@ -29,7 +30,8 @@ describe('Testing Register', () => {
         const body = {
             name: 'binazroel',
             email: '',
-            password: 'zroelzroelzroel'
+            password: 'zroelzroelzroel',
+            phone_number: '081908910918'
         }
         request(app)
             .post('/register')
@@ -46,11 +48,34 @@ describe('Testing Register', () => {
             })
     })
 
+    it('Error No Phone Number', (done) => {
+        const body = {
+            name: 'binazroel',
+            email: 'sistazroel@mail.com',
+            password: 'zroelzroelzroel',
+            phone_number: ''
+        }
+        request(app)
+            .post('/register')
+            .send(body)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.statusCode).toEqual(400)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('message', 'Phone Number is required')
+                    done()
+                }
+            })
+    })
+
     it('Error No Password', (done) => {
         const body = {
             name: 'binazroel',
             email: 'sistazroel@mail.com',
-            password: ''
+            password: '',
+            phone_number: '081908910918'
         }
         request(app)
             .post('/register')
@@ -71,7 +96,8 @@ describe('Testing Register', () => {
         const body = {
             name: 'binazroel',
             email: 'sistazroelmail',
-            password: 'zroelzroelzroel'
+            password: 'zroelzroelzroel',
+            phone_number: '081908910918'
         }
         request(app)
             .post('/register')
@@ -92,7 +118,8 @@ describe('Testing Register', () => {
         const body = {
             name: 'binazroel',
             email: 'sistazroel@mail.com',
-            password: 'zroelzroelzroel'
+            password: 'zroelzroelzroel',
+            phone_number: '081908910918'
         }
         request(app)
             .post('/register')
@@ -108,6 +135,28 @@ describe('Testing Register', () => {
                     expect(res.body).toHaveProperty('name', body.name)
                     expect(res.body).toHaveProperty('email', body.email)
                     expect(res.body).toHaveProperty('isAdmin', false)
+                }
+            })
+    })
+
+    it('Not Unique E-Mail', (done) => {
+        const body = {
+            name: 'binazroel',
+            email: 'sistazroel@mail.com',
+            password: 'zroelzroelzroel',
+            phone_number: '081908910918'
+        }
+        request(app)
+            .post('/register')
+            .send(body)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.statusCode).toEqual(400)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('message', 'email must be unique')
+                    done()
                 }
             })
     })
