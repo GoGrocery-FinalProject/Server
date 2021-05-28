@@ -135,6 +135,7 @@ describe('Testing Register', () => {
                     expect(res.body).toHaveProperty('name', body.name)
                     expect(res.body).toHaveProperty('email', body.email)
                     expect(res.body).toHaveProperty('isAdmin', false)
+                    done()
                 }
             })
     })
