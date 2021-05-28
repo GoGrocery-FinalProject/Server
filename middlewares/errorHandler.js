@@ -4,7 +4,20 @@ function errHandler (err, req, res, next) {
         for (let i = 0; i < err.errors.length; i++) {
             arr.push(err.errors[i].message)
         }
-        const message = arr.join(', ')
+        const newArr = []
+        if (arr.includes('Invalid email format') && arr.includes('Email is required')) {
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] !== 'Invalid email format') {
+                    newArr.push(arr[i])
+                }
+            }
+        }
+        let message = ''
+        if (newArr.length === 0) {
+            message = arr.join(', ')
+        } else {
+            message = newArr.join(', ')
+        }
         res.status(400).json({
             message: message
         })

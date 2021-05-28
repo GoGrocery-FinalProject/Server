@@ -46,7 +46,16 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    isAdmin: DataTypes.BOOLEAN
+    isAdmin: DataTypes.BOOLEAN,
+    phone_number: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Phone Number is required"
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'User',

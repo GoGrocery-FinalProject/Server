@@ -4,11 +4,12 @@ const { generateToken } = require('../helpers/jwt')
 
 class UserController {
     static register (req, res, next) {
-        const {name, email, password} = req.body
+        const {name, email, password, phone_number} = req.body
         User.create({
             name: name,
             email: email,
-            password: password
+            password: password,
+            phone_number: phone_number
         })
             .then((data) => {
                 res.status(201).json({
@@ -37,7 +38,8 @@ class UserController {
                         const token = generateToken({
                             id: data.id,
                             name: data.name,
-                            email: data.email
+                            email: data.email,
+                            phone_number: data.phone_number
                         })
                         res.status(200).json({
                             token: token,

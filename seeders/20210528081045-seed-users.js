@@ -19,6 +19,7 @@ module.exports = {
         email: 'muktientutz@mail.com',
         password: hashPassword('sistamania'),
         isAdmin: true,
+        phone_number: '081908091808',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -27,10 +28,11 @@ module.exports = {
         email: 'benidictivity@mail.com',
         password: hashPassword('korbantenggelam'),
         isAdmin: false,
+        phone_number: '081908091808',
         createdAt: new Date(),
         updatedAt: new Date()
       }
-    ]) 
+    ], {}) 
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -40,5 +42,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete('Users', null, {})
   }
 };
