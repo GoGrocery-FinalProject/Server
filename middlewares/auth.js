@@ -2,7 +2,7 @@ const { verifyToken } = require('../helpers/jwt')
 const { User } = require('../models')
 
 const authenticate = (req, res, next) => {
-    let decoded = verifyToken(req.headers.access_token)
+    let decoded = verifyToken(req.headers.token)
     User.findOne({
         where: { id: decoded.id, email: decoded.email }
     })
@@ -18,7 +18,7 @@ const authenticate = (req, res, next) => {
         })
 }
 
-const adminAuthorize=(req,res,next)=>{
+const adminAuthorize = (req,res,next)=>{
     if(req.currentUser.isAdmin !== true){
         next({
             code:401,
@@ -30,7 +30,7 @@ const adminAuthorize=(req,res,next)=>{
     }
 }
 
-const customerAuthorize=(req,res,next)=>{
+const customerAuthorize = (req,res,next)=>{
     if(req.currentUser.isAdmin === false){
         next()
     }

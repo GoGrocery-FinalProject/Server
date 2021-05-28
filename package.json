@@ -21,7 +21,7 @@
   "scripts": {
     "dev": "SET NODE_ENV=development&& npx nodemon bin/http.js",
     "db:create:test": "SET NODE_ENV=test&& npx sequelize-cli db:create",
-    "db:drop:test": "SET NODE_ENV=testt&& npx sequelize-cli db:drop",
+    "db:drop:test": "SET NODE_ENV=test&& npx sequelize-cli db:drop",
     "db:migrate:test": "SET NODE_ENV=test&& npx sequelize-cli db:migrate",
     "db:migrate:undo:test": "SET NODE_ENV=test&& npx sequelize-cli db:migrate:undo",
     "db:seed:all:test": "SET NODE_ENV=test&& npx sequelize-cli db:seed:all",
