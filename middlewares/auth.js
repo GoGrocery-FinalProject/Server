@@ -19,7 +19,7 @@ const authenticate = (req, res, next) => {
 }
 
 const adminAuthorize=(req,res,next)=>{
-    if(req.currentUser.isAdmin !== 'yes'){
+    if(req.currentUser.isAdmin !== true){
         next({
             code:401,
             message: "Admin only",
@@ -31,7 +31,7 @@ const adminAuthorize=(req,res,next)=>{
 }
 
 const customerAuthorize=(req,res,next)=>{
-    if(req.currentUser.isAdmin === 'no'){
+    if(req.currentUser.isAdmin === false){
         next()
     }
     else{

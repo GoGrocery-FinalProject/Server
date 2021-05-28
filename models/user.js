@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    isAdmin: DataTypes.STRING
+    isAdmin: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'User',
