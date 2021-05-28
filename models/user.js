@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.belongsToMany(models.Product, { through: 'Cart', foreignKey: 'UserId' })
     }
   };
   User.init({
@@ -27,24 +26,23 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
-     unique: true,
-     validate: {
-       isEmail: {
-         args: true,
-         msg: "Invalid email format"
-       },
-       notEmpty: {
-        args: true,
-        msg: 'Email is required'
+      validate: {
+        isEmail: {
+          args: true,
+          msg: "Invalid email format"
+        },
+        notEmpty: {
+          args: true,
+          msg: 'Email is required'
+        }
       }
-     }
     },
     password: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
           args: true,
-          msg: "Password is require"
+          msg: "Password is required"
         }
       }
     },
@@ -55,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
   })
   User.beforeCreate((user, option) => {
     user.password = hashPassword(user.password)
-    if(!user.isAdmin) user.isAdmin = "no"
+    user.isAdmin = false
   });
   return User;
 };
