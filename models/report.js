@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Cart extends Model {
+  class Report extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,26 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Cart.belongsTo(models.User, { foreignKey: 'UserId'})
-      Cart.belongsTo(models.Product, { foreignKey: 'ProductId'})
+      Report.hasMany(models.Product, { foreignKey: 'ProductId'})
+      Report.hasMany(models.Product, { foreignKey: 'stockRecorded'})
     }
   };
-  Cart.init({
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false
-    },
-    UserId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Users',
-        key: 'id'
-      },
-      onUpdate: 'cascade',
-      onDelete: 'cascade',
-    },
+  Report.init({
     ProductId: {
       type: DataTypes.INTEGER,
       references: {
@@ -40,14 +25,19 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'cascade',
       onDelete: 'cascade',
     },
-    quantity: DataTypes.INTEGER,
-    status: DataTypes.STRING
+    stockRecorded:{
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Product',
+        key: 'stock'
+      },
+      onUpdate: 'cascade',
+      onDelete: 'cascade',
+    },
+    stockReality: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'Cart',
-  })
-  Cart.beforeCreate((cart, option) => {
-    cart.status = "unpaid"
+    modelName: 'Report',
   });
-  return Cart;
+  return Report;
 };
