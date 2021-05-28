@@ -12,7 +12,6 @@ const database = process.env["DB_NAME_" + capsENV]
 const host = process.env["DB_HOST_" + capsENV]
 const dialect = process.env["DB_DIALECT_" + capsENV]
 
-
 module.exports = {
   "development": {
     username,

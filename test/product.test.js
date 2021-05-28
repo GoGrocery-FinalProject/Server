@@ -4,13 +4,17 @@ const { Product,sequelize } = require('../models')
 const {queryInterface} = sequelize
 const { generateToken } = require('../helpers/jwt')
 
-let token = generateToken({ email: 'muktientutz@mail.com' })
+let token = generateToken({
+    id: 1,
+    name: 'Mukti Metronom',
+    email: 'muktientutz@mail.com',
+    phone_number: '081908091808'
+})
 
 beforeAll((done) => {
     queryInterface.bulkInsert('Products', 
      [
-       {     
-        id: 1,
+       {
         name: 'Taro Snack Net Seaweed Pck 70G',
         barcode_number: '1414100003',
         stock: 5,
@@ -20,7 +24,6 @@ beforeAll((done) => {
         updatedAt: new Date()
        },
        {
-        id: 2,
         name: 'CHIKI BALLS Rasa Keju 200g',
         barcode_number: '8968659100',
         stock: 10,
@@ -58,9 +61,7 @@ describe('Create Product / Success case', () => {
                 barcode_number: '8968659100',
                 stock: 10,
                 price: 21400,
-                stockBefore: 10,
-                createdAt: new Date(),
-                updatedAt: new Date()
+                stockBefore: 10
             })
             .end(function (err, res) {
                 if (err) done(err);
@@ -87,7 +88,7 @@ describe('Create Product / Failed case', () => {
                 barcode_number: '8968659100',
                 stock: 10,
                 price: 21400,
-                stockBefore: 10,
+                stockBefore: 10
             })
             .end(function (err, res) {
                 if (err) done(err);
@@ -185,7 +186,7 @@ describe('Create Product / Failed case', () => {
                 .send({
                     name: 'CHIKI BALLS Rasa Keju 200g',
                     barcode_number: '8968659100',
-                    stock: '10',
+                    stock: 'coba',
                     price: 21400,
                     stockBefore: 10,
                 })
@@ -315,7 +316,7 @@ describe('Update Product / Failed case', () => {
                 name: 'CHIKI BALLS Rasa Keju 100g',
                 barcode_number: '8968659100',
                 stock: 5,
-                price: 11400,
+                price: -11400,
                 stockBefore: 5
             })
             .end(function (err, res) {

@@ -47,24 +47,14 @@ class productController {
       barcode_number: req.body.barcode_number,
       stock: req.body.stock,
       price: req.body.price,
-      stockBefore: req.body.stock
+      stockBefore: req.body.stockBefore
     }
     Product.create(newProduct)
       .then((product) => {
         res.status(201).json(product)
       })
       .catch((error) => {
-        if (error.message) {
-          next({
-            code: 400,
-            message: error
-          })
-        } else {
-          next({
-            code: 500,
-            message: 'Internal Server Error'
-          })
-        }
+        next(error)
       })
   }
 

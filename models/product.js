@@ -11,8 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Product.belongsTo(models.Report, { foreignKey: 'ProductId'})
-      Product.belongsTo(models.Report, { foreignKey: 'stockRecorded'})
     }
   };
   Product.init({
@@ -66,6 +64,23 @@ module.exports = (sequelize, DataTypes) => {
             throw new Error("Cannot be negative value")
           }
         }
+      }
+    },
+    stockBefore: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: {
+          msg: "Must number"
+        },
+        notEmpty: {
+          args: true,
+          msg: "Stock is required"
+        },
+        notNegative(value) {
+          if (parseInt(value) < 0 ) {
+            throw new Error("Cannot be negative value")
+          }
+        },
       }
     }
   }, {
