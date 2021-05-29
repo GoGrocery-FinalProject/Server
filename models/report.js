@@ -14,9 +14,41 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Report.init({
-    products: DataTypes.TEXT,
-    transactions: DataTypes.TEXT,
-    income: DataTypes.INTEGER
+    products: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "List of Product cannot be empty"
+        }
+      }
+    },
+    transactions: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "List of Product cannot be empty"
+        }
+      }
+    },
+    income: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: {
+          msg: "Must number"
+        },
+        notEmpty: {
+          args: true,
+          msg: "Cannot left empty"
+        },
+        notNegative(value) {
+          if (parseInt(value) < 0 ) {
+            throw new Error("Cannot be negative value")
+          }
+        },
+      }
+    }
   }, {
     sequelize,
     modelName: 'Report',
