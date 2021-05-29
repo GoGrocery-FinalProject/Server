@@ -14,25 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Report.init({
-    ProductId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Product',
-        key: 'id'
-      },
-      onUpdate: 'cascade',
-      onDelete: 'cascade',
-    },
-    stockRecorded:{
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Product',
-        key: 'stock'
-      },
-      onUpdate: 'cascade',
-      onDelete: 'cascade',
-    },
-    stockReality: DataTypes.INTEGER
+    products: DataTypes.TEXT,
+    transactions: DataTypes.TEXT,
+    income: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Report',
