@@ -38,14 +38,14 @@ const customerAuthorize = (req, res, next) => {
 }
 
 const transactionAuthorize = (req, res, next) => {
-    Transaction.findOne({
+    User.findOne({
         where: {
             id: Number(req.params.id)
         }
     })
         .then((data) => {
             if (data) {
-                const valid = req.currentUser.id === data.UserId
+                const valid = req.currentUser.id === Number(req.params.id)
                 if (valid) {
                     next()
                 } else {

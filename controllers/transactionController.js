@@ -25,12 +25,7 @@ class TransactionController {
     }
 
     static readTransactions (req, res, next) {
-        const { id } = req.currentUser
-        Transaction.findAll({
-            where: {
-                UserId: id
-            }
-        })
+        Transaction.findAll({})
             .then((data) => {
                 const arr = []
                 for (let i = 0; i < data.length; i++) {
@@ -51,19 +46,25 @@ class TransactionController {
             })
     }
 
-    static readOneTransaction (req, res, next) {
-        Transaction.findOne({
+    static readUserTransactions (req, res, next) {
+        Transaction.findAll({
             where: {
-                id: Number(req.params.id)
+                UserId: Number(req.params.id)
             }
         })
             .then((data) => {
+                const arr = []
+                for (let i = 0; i < data.length; i++) {
+                    arr.push({
+                        id: data[i].id,
+                        UserId: data[i].UserId,
+                        products: data[i].products,
+                        order_id: data[i].order_id,
+                        totalPrice: data[i].totalPrice
+                    })
+                }
                 res.status(200).json({
-                    id: data.id,
-                    UserId: data.UserId,
-                    products: data.products,
-                    order_id: data.order_id,
-                    totalPrice: data.totalPrice
+                    transactions: arr
                 })
             })
             .catch((err) => {
