@@ -44,7 +44,8 @@ class reportController {
     const newReport = {
       products: req.body.products,
       transactions: req.body.transactions,
-      income: req.body.income
+      income: req.body.income,
+      loss: req.body.loss
     }
     Report.create(newReport)
       .then((report) => {

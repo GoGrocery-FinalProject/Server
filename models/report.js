@@ -48,6 +48,18 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
       }
+    },
+    loss: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: {
+          msg: "Must number"
+        },
+        notEmpty: {
+          args: true,
+          msg: "Cannot left empty"
+        }
+      }
     }
   }, {
     sequelize,

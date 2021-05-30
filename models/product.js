@@ -23,6 +23,24 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    image_url: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "URL of Image cannot be empty"
+        }
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Description cannot be empty"
+        }
+      }
+    },
     barcode_number: {
       type: DataTypes.STRING,
       validate: {
