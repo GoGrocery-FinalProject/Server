@@ -1,4 +1,5 @@
 const midtransClient = require('midtrans-client')
+const { Transaction } = require('../models')
 
 class MidtransController {
 	static pay(req, res) {
@@ -26,6 +27,17 @@ class MidtransController {
 			let clientKey = snap.apiConfig.clientKey
 			res.status(200).json({ link, transactionToken, clientKey })
 		})
+
+		Transaction.create({
+			UserId: req.body.userId,
+			products: products,
+			order_id: parameter.transaction_details.order_id,
+			totalPrice: totalPrice,
+		})
+			.then((res) => {
+				console.log(res)
+			})
+			.catch(console.log)
 	}
 }
 
