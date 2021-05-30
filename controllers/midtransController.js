@@ -1,5 +1,6 @@
 const midtransClient = require('midtrans-client')
 const { Transaction } = require('../models')
+const axios = require('axios')
 
 class MidtransController {
 	static pay(req, res) {
@@ -38,6 +39,29 @@ class MidtransController {
 				console.log(res)
 			})
 			.catch(console.log)
+	}
+
+	static checkStatus(req, res) {
+		axios({
+			url: `https://api.sandbox.midtrans.com/v2/${req.body.order_id}/status`,
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				Authorization:
+					'Basic ' +
+					Buffer.from('SB-Mid-server-OkJLecqkB5bPgBQhcPsJCKWY').toString(
+						'base64'
+					),
+			},
+		})
+			.then(({ data }) => {
+				console.log(data)
+				res.status(200).json(data)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
 	}
 }
 
