@@ -30,7 +30,7 @@ class MidtransController {
 
 		Transaction.create({
 			UserId: req.body.userId,
-			products: products,
+			products: JSON.stringify(parameter.item_details),
 			order_id: parameter.transaction_details.order_id,
 			totalPrice: totalPrice,
 		})
