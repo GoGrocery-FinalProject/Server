@@ -16,6 +16,7 @@ class UserController {
                     id: data.id,
                     name: data.name,
                     email: data.email,
+                    phone_number: data.phone_number,
                     isAdmin: data.isAdmin
                 })
             })

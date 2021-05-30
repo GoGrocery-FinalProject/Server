@@ -2,7 +2,7 @@ const { Product } = require('../models')
 
 class productController {
   static showAll(req, res, next) {
-    console.log('masuk all')
+    // console.log('masuk all')
     Product.findAll()
       .then((products) => {
         res.status(200).json(products)
@@ -15,15 +15,15 @@ class productController {
       })
   }
 
-  static findById(req, res, next) {
-    console.log(req.params, "ini paramsnya")
+  static findByBarcode(req, res, next) {
+    // console.log(req.params, "ini paramsnya")
     Product.findOne({
       where: {
-        id: +req.params.id
+        barcode_number: req.params.barcode_number
       }
     })
       .then((product) => {
-        console.log(product, 'ini masuk ke find id')
+        // console.log(product, 'ini masuk ke find id')
         if (product !== null) {
           res.status(200).json(product)
         } else {
@@ -77,7 +77,7 @@ class productController {
       returning: true
     })
       .then((product) => {
-        res.status(200).json({ message: 'Data has been updated' })
+        res.status(200).json(product)
       })
       .catch((error) => {
         if (error.message) {
