@@ -280,14 +280,14 @@ describe('Read Transaction', () => {
     it('Error Not Required Token', (done) => {
         request(app)
             .get('/transactions')
-            .set('token', tokenAdmin)
+            .set('token', token)
             .end((err, res) => {
                 if (err) {
                     done(err)
                 } else {
                     expect(res.statusCode).toEqual(401)
                     expect(typeof res.body).toEqual('object')
-                    expect(res.body).toHaveProperty('message', 'You must login first')
+                    expect(res.body).toHaveProperty('message', 'Admin only')
                     done()
                 }
             })
@@ -296,7 +296,7 @@ describe('Read Transaction', () => {
     it('Success', (done) => {
         request(app)
             .get('/transactions')
-            .set('token', token)
+            .set('token', tokenAdmin)
             .end((err, res) => {
                 if (err) {
                     done(err)
@@ -310,10 +310,10 @@ describe('Read Transaction', () => {
     })
 })
 
-describe('Read Transaction by ID', () => {
+describe('Read Transaction by User ID', () => {
     it('Error No Token', (done) => {
         request(app)
-            .get('/transactions/1')
+            .get('/transactions/2')
             .end((err, res) => {
                 if (err) {
                     done(err)
@@ -328,7 +328,7 @@ describe('Read Transaction by ID', () => {
 
     it('Error Invalid Token', (done) => {
         request(app)
-            .get('/transactions/1')
+            .get('/transactions/2')
             .set('token', token+2)
             .end((err, res) => {
                 if (err) {
@@ -344,7 +344,7 @@ describe('Read Transaction by ID', () => {
 
     it('Error Not Required Token', (done) => {
         request(app)
-            .get('/transactions/1')
+            .get('/transactions/2')
             .set('token', tokenAdmin)
             .end((err, res) => {
                 if (err) {
@@ -360,7 +360,7 @@ describe('Read Transaction by ID', () => {
 
     it('Error Not Authorized', (done) => {
         request(app)
-            .get('/transactions/2')
+            .get('/transactions/3')
             .set('token', token)
             .end((err, res) => {
                 if (err) {
@@ -392,7 +392,7 @@ describe('Read Transaction by ID', () => {
 
     it('Success', (done) => {
         request(app)
-            .get('/transactions/1')
+            .get('/transactions/2')
             .set('token', token)
             .end((err, res) => {
                 if (err) {
@@ -400,12 +400,7 @@ describe('Read Transaction by ID', () => {
                 } else {
                     expect(res.statusCode).toEqual(200)
                     expect(typeof res.body).toEqual('object')
-                    expect(res.body).toHaveProperty('id')
-                    expect(typeof res.body.id).toEqual('number')
-                    expect(res.body).toHaveProperty('UserId')
-                    expect(res.body).toHaveProperty('products')
-                    expect(res.body).toHaveProperty('order_id')
-                    expect(res.body).toHaveProperty('totalPrice')
+                    expect(res.body).toHaveProperty('transactions')
                     done()
                 }
             })
