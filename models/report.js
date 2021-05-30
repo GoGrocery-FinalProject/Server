@@ -14,25 +14,53 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Report.init({
-    ProductId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Product',
-        key: 'id'
-      },
-      onUpdate: 'cascade',
-      onDelete: 'cascade',
+    products: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "List of Product cannot be empty"
+        }
+      }
     },
-    stockRecorded:{
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Product',
-        key: 'stock'
-      },
-      onUpdate: 'cascade',
-      onDelete: 'cascade',
+    transactions: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "List of Product cannot be empty"
+        }
+      }
     },
-    stockReality: DataTypes.INTEGER
+    income: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: {
+          msg: "Must number"
+        },
+        notEmpty: {
+          args: true,
+          msg: "Cannot left empty"
+        },
+        notNegative(value) {
+          if (parseInt(value) < 0 ) {
+            throw new Error("Cannot be negative value")
+          }
+        },
+      }
+    },
+    loss: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isNumeric: {
+          msg: "Must number"
+        },
+        notEmpty: {
+          args: true,
+          msg: "Cannot left empty"
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Report',

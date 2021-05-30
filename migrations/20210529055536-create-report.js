@@ -8,13 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ProductId: {
-        type: Sequelize.INTEGER
+      products: {
+        type: Sequelize.TEXT
       },
-      stockRecorded: {
-        type: Sequelize.INTEGER
+      transactions: {
+        type: Sequelize.TEXT
       },
-      stockReality: {
+      income: {
         type: Sequelize.INTEGER
       },
       createdAt: {

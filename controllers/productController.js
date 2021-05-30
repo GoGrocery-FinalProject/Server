@@ -44,6 +44,8 @@ class productController {
   static addProduct(req, res, next) {
     const newProduct = {
       name: req.body.name,
+      image_url: req.body.image_url,
+      description: req.body.description,
       barcode_number: req.body.barcode_number,
       stock: req.body.stock,
       price: req.body.price,
@@ -61,6 +63,8 @@ class productController {
   static putUpdate(req, res, next) {
     const updateProduct = {
       name: req.body.name,
+      image_url: req.body.image_url,
+      description: req.body.description,
       barcode_number: req.body.barcode_number,
       stock: req.body.stock,
       price: req.body.price,

@@ -16,6 +16,8 @@ beforeAll((done) => {
      [
        {
         name: 'Taro Snack Net Seaweed Pck 70G',
+        image_url: 'https://assets.klikindomaret.com/share/20055205/20055205_1.jpg',
+        description: 'Rasa Seaweed ukuran 70 Gram',
         barcode_number: '1414100003',
         stock: 5,
         price: 9500,
@@ -26,6 +28,8 @@ beforeAll((done) => {
        {
         name: 'CHIKI BALLS Rasa Keju 200g',
         barcode_number: '8968659100',
+        image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+        description: 'Chiki rasa keju ukuran 200 gram',
         stock: 10,
         price: 21400,
         stockBefore: 10,
@@ -58,6 +62,8 @@ describe('Create Product / Success case', () => {
             .set('token', token)
             .send({
                 name: 'CHIKI BALLS Rasa Keju 200g',
+                image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                description: 'Chiki rasa keju ukuran 200 gram',
                 barcode_number: '8968659100',
                 stock: 10,
                 price: 21400,
@@ -69,6 +75,8 @@ describe('Create Product / Success case', () => {
                 expect(status).toEqual(201)
                 expect(body).toHaveProperty('id', expect.any(Number))
                 expect(body).toHaveProperty('name', 'CHIKI BALLS Rasa Keju 200g')
+                expect(body).toHaveProperty('image_url', 'https://assets.klikindomaret.com/share/20101064_1.jpg')
+                expect(body).toHaveProperty('description', 'Chiki rasa keju ukuran 200 gram')
                 expect(body).toHaveProperty('barcode_number', '8968659100')
                 expect(body).toHaveProperty('stock', 10)
                 expect(body).toHaveProperty('price', 21400)
@@ -85,6 +93,8 @@ describe('Create Product / Failed case', () => {
             .post('/products')
             .send({
                 name: 'CHIKI BALLS Rasa Keju 200g',
+                image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                description: 'Chiki rasa keju ukuran 200 gram',
                 barcode_number: '8968659100',
                 stock: 10,
                 price: 21400,
@@ -105,6 +115,8 @@ describe('Create Product / Failed case', () => {
             .set('token', token+2)
             .send({
                 name: 'CHIKI BALLS Rasa Keju 200g',
+                image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                description: 'Chiki rasa keju ukuran 200 gram',
                 barcode_number: '8968659100',
                 stock: 10,
                 price: 21400,
@@ -125,6 +137,8 @@ describe('Create Product / Failed case', () => {
             .set('token', token)
             .send({
                 name: '',
+                image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                description: 'Chiki rasa keju ukuran 200 gram',
                 barcode_number: '8968659100',
                 stock: 10,
                 price: 21400,
@@ -145,6 +159,8 @@ describe('Create Product / Failed case', () => {
             .set('token', token)
             .send({
                 name: 'CHIKI BALLS Rasa Keju 200g',
+                image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                description: 'Chiki rasa keju ukuran 200 gram',
                 barcode_number: '8968659100',
                 stock: -10,
                 price: 21400,
@@ -165,6 +181,8 @@ describe('Create Product / Failed case', () => {
             .set('token', token)
             .send({
                 name: 'CHIKI BALLS Rasa Keju 200g',
+                image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                description: 'Chiki rasa keju ukuran 200 gram',
                 barcode_number: '8968659100',
                 stock: 10,
                 price: -21400,
@@ -185,6 +203,8 @@ describe('Create Product / Failed case', () => {
                 .set('token', token)
                 .send({
                     name: 'CHIKI BALLS Rasa Keju 200g',
+                    image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                    description: 'Chiki rasa keju ukuran 200 gram',
                     barcode_number: '8968659100',
                     stock: 'coba',
                     price: 21400,
@@ -210,6 +230,8 @@ describe('Update Product / Success case', () => {
         .send({
             id: idProduct,
             name: 'CHIKI BALLS Rasa Keju 100g',
+            image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+            description: 'Chiki rasa keju ukuran 200 gram',
             barcode_number: '8968659100',
             stock: 5,
             price: 11400,
@@ -233,6 +255,8 @@ describe('Update Product / Failed case', () => {
             .send({
                 id: idProduct,
                 name: 'CHIKI BALLS Rasa Keju 100g',
+                image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                description: 'Chiki rasa keju ukuran 200 gram',
                 barcode_number: '8968659100',
                 stock: 5,
                 price: 11400,
@@ -254,6 +278,8 @@ describe('Update Product / Failed case', () => {
             .send({
                 id: idProduct,
                 name: 'CHIKI BALLS Rasa Keju 100g',
+                image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                description: 'Chiki rasa keju ukuran 200 gram',
                 barcode_number: '8968659100',
                 stock: 5,
                 price: 11400,
@@ -274,6 +300,8 @@ describe('Update Product / Failed case', () => {
             .set('token', token)
             .send({
                 name: '',
+                image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                description: 'Chiki rasa keju ukuran 200 gram',
                 barcode_number: '8968659100',
                 stock: 5,
                 price: 11400,
@@ -294,6 +322,8 @@ describe('Update Product / Failed case', () => {
             .set('token', token)
             .send({
                 name: 'CHIKI BALLS Rasa Keju 100g',
+                image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                description: 'Chiki rasa keju ukuran 200 gram',
                 barcode_number: '8968659100',
                 stock: -5,
                 price: 11400,
@@ -314,6 +344,8 @@ describe('Update Product / Failed case', () => {
             .set('token', token)
             .send({
                 name: 'CHIKI BALLS Rasa Keju 100g',
+                image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                description: 'Chiki rasa keju ukuran 200 gram',
                 barcode_number: '8968659100',
                 stock: 5,
                 price: -11400,
@@ -334,6 +366,8 @@ describe('Update Product / Failed case', () => {
                 .set('token', token)
                 .send({
                     name: 'CHIKI BALLS Rasa Keju 100g',
+                    image_url: 'https://assets.klikindomaret.com/share/20101064_1.jpg',
+                    description: 'Chiki rasa keju ukuran 200 gram',
                     barcode_number: '8968659100',
                     stock: 'awa',
                     price: 11400,
