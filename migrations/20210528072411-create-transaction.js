@@ -9,13 +9,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       UserId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'Users'
+          },
+          key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade',
+      },
+      products: {
+        type: Sequelize.TEXT
+      },
+      order_id: {
+        type: Sequelize.STRING
+      },
+      totalPrice: {
         type: Sequelize.INTEGER
-      },
-      ProductIds: {
-        type: Sequelize.STRING
-      },
-      quantities: {
-        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

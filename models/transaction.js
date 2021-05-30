@@ -17,15 +17,41 @@ module.exports = (sequelize, DataTypes) => {
   Transaction.init({
     UserId: {
       type: DataTypes.INTEGER,
-      references: {
-        model: 'User',
-        key: 'id'
-      },
-      onUpdate: 'cascade',
-      onDelete: 'cascade',
+      allowNull: false
     },
-    ProductIds: DataTypes.STRING,
-    quantities: DataTypes.STRING
+    products: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "List of products cannot be empty"
+        }
+      }
+    },
+    order_id: {
+      type: DataTypes.TEXT,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: "Order ID cannot be empty"
+        }
+      }
+    },
+    totalPrice: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        isNumeric: {
+          args: true,
+          msg: "Must number"
+        },
+        notNegative(value) {
+          if (parseInt(value) < 0 ) {
+            throw new Error("Cannot be negative value")
+          }
+        },
+      }
+    }
   }, {
     sequelize,
     modelName: 'Transaction',
