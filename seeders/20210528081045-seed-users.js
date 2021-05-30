@@ -31,6 +31,15 @@ module.exports = {
         phone_number: '081908091808',
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        name: 'Manasm',
+        email: 'manasm@mail.com',
+        password: hashPassword('gooners'),
+        isAdmin: false,
+        phone_number: '081908091808',
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ], {}) 
   },
