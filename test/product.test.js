@@ -55,6 +55,112 @@ afterAll((done) => {
     })
 })
 
+describe('Read Product / Success case', () => {
+    it('Should return response 200', (done) => {
+        request(app)
+            .get('/products')
+            .set('token', token)
+            .end(function (err, res) {
+                if (err) done(err);
+                const { body, status } = res
+                expect(status).toEqual(200)
+                expect(typeof body).toEqual('object')
+
+                done()
+            })
+    })
+})
+
+describe('Read Product / Failed case', () => {
+    it('Tidak menyertakan access token', (done) => {
+        request(app)
+            .get('/products')
+            .end(function (err, res) {
+                if (err) done(err);
+                const { body, status } = res
+                expect(status).toEqual(401)
+                expect(body).toHaveProperty('message', 'Not Authenticated')
+                done()
+            })
+    })
+
+    it('Token yang digunakan tidak valid', (done) =>{
+            request(app)
+                .get('/products')
+                .set('token', token+2)
+                .end(function (err, res) {
+                    if (err) done(err);
+                    const { body, status } = res
+                    expect(status).toEqual(400)
+                    expect(body).toHaveProperty('message', 'Not Authenticated')
+                    done()
+                })
+        })
+})
+let barcode = 1414100003
+describe('Read Product by Barcode/ Success case', () => {
+    it('Should return response 200', (done) => {
+        request(app)
+            .get('/products/'+barcode)
+            .set('token', token)
+            .end(function (err, res) {
+                if (err) done(err);
+                const { body, status } = res
+                expect(status).toEqual(200)
+                expect(body).toHaveProperty('id', 1)
+                expect(body).toHaveProperty('name', 'Taro Snack Net Seaweed Pck 70G')
+                expect(body).toHaveProperty('image_url', 'https://assets.klikindomaret.com/share/20055205/20055205_1.jpg')
+                expect(body).toHaveProperty('description', 'Rasa Seaweed ukuran 70 Gram')
+                expect(body).toHaveProperty('barcode_number', '1414100003')
+                expect(body).toHaveProperty('stock', 5)
+                expect(body).toHaveProperty('price', 9500)
+                expect(body).toHaveProperty('stockBefore', 5)
+
+                done()
+            })
+    })
+})
+
+describe('Read Product by Barcode/ Failed case', () => {
+    it('Tidak menyertakan access token', (done) => {
+        request(app)
+            .get('/products/'+ barcode)
+            .end(function (err, res) {
+                if (err) done(err);
+                const { body, status } = res
+                expect(status).toEqual(401)
+                expect(body).toHaveProperty('message', 'Not Authenticated')
+                done()
+            })
+    })
+
+    it('Token yang digunakan tidak valid', (done) =>{
+            request(app)
+            .get('/products/'+ barcode)
+                .set('token', token+2)
+                .end(function (err, res) {
+                    if (err) done(err);
+                    const { body, status } = res
+                    expect(status).toEqual(400)
+                    expect(body).toHaveProperty('message', 'Not Authenticated')
+                    done()
+                })
+        })
+
+        it('Barcode yang digunakan tidak valid', (done) =>{
+            request(app)
+            .get('/products/'+ barcode+2)
+                .set('token', token)
+                .end(function (err, res) {
+                    if (err) done(err);
+                    const { body, status } = res
+                    expect(status).toEqual(400)
+                    expect(body).toHaveProperty('message', 'Data not found')
+                    done()
+                })
+        })
+})
+
 describe('Create Product / Success case', () => {
     it('Should return response 201', (done) => {
         request(app)

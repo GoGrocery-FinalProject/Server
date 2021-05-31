@@ -8,10 +8,7 @@ class productController {
         res.status(200).json(products)
       })
       .catch((error) => {
-        next({
-          code: 500,
-          message: "Internal Server Error"
-        })
+        next(error)
       })
   }
 
@@ -77,7 +74,7 @@ class productController {
       returning: true
     })
       .then((product) => {
-        res.status(200).json(product)
+        res.status(200).json({ message: 'Data has been updated'})
       })
       .catch((error) => {
         if (error.message) {
@@ -102,7 +99,7 @@ class productController {
       returning: true //biar keliatan langsung datanya pas di hit
     })
     .then((product) => {
-      res.status(200).json(product)
+      res.status(200).json({ message: 'Data has been updated'})
     })
     .catch(err => {
         next({
