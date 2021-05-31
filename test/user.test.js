@@ -134,6 +134,7 @@ describe('Testing Register', () => {
                     expect(typeof res.body.id).toEqual('number')
                     expect(res.body).toHaveProperty('name', body.name)
                     expect(res.body).toHaveProperty('email', body.email)
+                    expect(res.body).toHaveProperty('phone_number', body.phone_number)
                     expect(res.body).toHaveProperty('isAdmin', false)
                     done()
                 }
@@ -230,7 +231,7 @@ describe('Testing Login', () => {
         User.destroy({
             where: {
                 [Op.not]: [
-                    {id: [1,2]}
+                    {id: [1, 2, 3]}
                 ]
             }
         })
