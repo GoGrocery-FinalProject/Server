@@ -91,7 +91,7 @@ describe('Read Product / Failed case', () => {
                 .end(function (err, res) {
                     if (err) done(err);
                     const { body, status } = res
-                    expect(status).toEqual(400)
+                    expect(status).toEqual(401)
                     expect(body).toHaveProperty('message', 'Not Authenticated')
                     done()
                 })
@@ -107,7 +107,7 @@ describe('Read Product by Barcode/ Success case', () => {
                 if (err) done(err);
                 const { body, status } = res
                 expect(status).toEqual(200)
-                expect(body).toHaveProperty('id', 1)
+                expect(body).toHaveProperty('id')
                 expect(body).toHaveProperty('name', 'Taro Snack Net Seaweed Pck 70G')
                 expect(body).toHaveProperty('image_url', 'https://assets.klikindomaret.com/share/20055205/20055205_1.jpg')
                 expect(body).toHaveProperty('description', 'Rasa Seaweed ukuran 70 Gram')
@@ -141,7 +141,7 @@ describe('Read Product by Barcode/ Failed case', () => {
                 .end(function (err, res) {
                     if (err) done(err);
                     const { body, status } = res
-                    expect(status).toEqual(400)
+                    expect(status).toEqual(401)
                     expect(body).toHaveProperty('message', 'Not Authenticated')
                     done()
                 })
@@ -154,7 +154,7 @@ describe('Read Product by Barcode/ Failed case', () => {
                 .end(function (err, res) {
                     if (err) done(err);
                     const { body, status } = res
-                    expect(status).toEqual(400)
+                    expect(status).toEqual(404)
                     expect(body).toHaveProperty('message', 'Data not found')
                     done()
                 })
