@@ -16,7 +16,8 @@ class TransactionController {
                     UserId: data.UserId,
                     products: data.products,
                     order_id: data.order_id,
-                    totalPrice: data.totalPrice
+                    totalPrice: data.totalPrice,
+                    status: data.status
                 })
             })
             .catch((err) => {
