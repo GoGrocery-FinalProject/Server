@@ -3,6 +3,9 @@ const MidtransController = require('../controllers/midtransController')
 
 router.post('/pay', MidtransController.pay)
 router.get('/status', MidtransController.checkStatus)
-//
+route.post(
+	'/payment-notification-handler',
+	MidtransController.NotificationHandler
+)
 
 module.exports = router
