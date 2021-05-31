@@ -239,6 +239,7 @@ describe('Create Transaction', () => {
                     expect(res.body).toHaveProperty('products', body.products)
                     expect(res.body).toHaveProperty('order_id', body.order_id)
                     expect(res.body).toHaveProperty('totalPrice', body.totalPrice)
+                    expect(res.body).toHaveProperty('status', 'unpaid')
                     done()
                 }
             })
