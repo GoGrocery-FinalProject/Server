@@ -2,6 +2,10 @@ const midtransClient = require('midtrans-client')
 const { Transaction } = require('../models')
 const axios = require('axios')
 
+//flow midtrans ketika transakis dibuat inpput 2 kali post database intern dan post database midtrans
+//pakai webhooks > sediain endpoint
+//ada di dashboard midtrans => notifcation url di masukan endpointnya
+
 class MidtransController {
 	static pay(req, res) {
 		let snap = new midtransClient.Snap({
@@ -41,6 +45,7 @@ class MidtransController {
 			.catch(console.log)
 	}
 
+	//diganti endpoint baru untuk handle notif dari midtrans (webhooks)
 	static checkStatus(req, res) {
 		axios({
 			url: `https://api.sandbox.midtrans.com/v2/${req.body.order_id}/status`,
