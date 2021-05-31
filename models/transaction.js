@@ -51,10 +51,14 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
       }
-    }
+    },
+    status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Transaction',
+  });
+  Transaction.beforeCreate((transaction, option) => {
+    transaction.status = 'unpaid'
   });
   return Transaction;
 };
