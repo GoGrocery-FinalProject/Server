@@ -16,7 +16,8 @@ class TransactionController {
                     UserId: data.UserId,
                     products: data.products,
                     order_id: data.order_id,
-                    totalPrice: data.totalPrice
+                    totalPrice: data.totalPrice,
+                    status: data.status
                 })
             })
             .catch((err) => {
@@ -34,7 +35,8 @@ class TransactionController {
                         UserId: data[i].UserId,
                         products: data[i].products,
                         order_id: data[i].order_id,
-                        totalPrice: data[i].totalPrice
+                        totalPrice: data[i].totalPrice,
+                        createdAt: data[i].createdAt
                     })
                 }
                 res.status(200).json({
@@ -60,7 +62,8 @@ class TransactionController {
                         UserId: data[i].UserId,
                         products: data[i].products,
                         order_id: data[i].order_id,
-                        totalPrice: data[i].totalPrice
+                        totalPrice: data[i].totalPrice,
+                        createdAt: data[i].createdAt
                     })
                 }
                 res.status(200).json({
