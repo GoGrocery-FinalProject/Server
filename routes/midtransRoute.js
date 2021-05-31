@@ -1,9 +1,9 @@
 const router = require('express').Router()
 const MidtransController = require('../controllers/midtransController')
 
-router.post('/pay', MidtransController.pay)
+router.post('/', MidtransController.pay)
 router.get('/status', MidtransController.checkStatus)
-route.post(
+router.post(
 	'/payment-notification-handler',
 	MidtransController.NotificationHandler
 )

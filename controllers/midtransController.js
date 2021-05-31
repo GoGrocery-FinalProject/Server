@@ -2,12 +2,8 @@ const midtransClient = require('midtrans-client')
 const { Transaction } = require('../models')
 const axios = require('axios')
 
-//flow midtrans ketika transakis dibuat inpput 2 kali post database intern dan post database midtrans
-//pakai webhooks > sediain endpoint
-//ada di dashboard midtrans => notifcation url di masukan endpointnya
-
 class MidtransController {
-	static pay(req, res) {
+	static pay(req, res, next) {
 		let snap = new midtransClient.Snap({
 			isProduction: false,
 			serverKey: 'SB-Mid-server-OkJLecqkB5bPgBQhcPsJCKWY',
@@ -16,7 +12,7 @@ class MidtransController {
 
 		let parameter = {
 			transaction_details: {
-				order_id: Math.round(new Date().getTime() / 1000),
+				order_id: 'ORDER-101-' + Math.round(new Date().getTime() / 1000),
 				gross_amount: req.body.gross_amount,
 			},
 			item_details: req.body.item_details,
@@ -26,11 +22,8 @@ class MidtransController {
 		}
 
 		snap.createTransaction(parameter).then((transaction) => {
-			// send transaction token && link
 			let link = transaction.redirect_url
-			let transactionToken = transaction.token
-			let clientKey = snap.apiConfig.clientKey
-			res.status(200).json({ link, transactionToken, clientKey })
+			res.status(200).json({ link })
 		})
 
 		Transaction.create({
@@ -42,11 +35,12 @@ class MidtransController {
 			.then((res) => {
 				console.log(res)
 			})
-			.catch(console.log)
+			.catch((err) => {
+				next(err)
+			})
 	}
 
-	//diganti endpoint baru untuk handle notif dari midtrans (webhooks)
-	static checkStatus(req, res) {
+	static checkStatus(req, res, next) {
 		axios({
 			url: `https://api.sandbox.midtrans.com/v2/${req.body.order_id}/status`,
 			method: 'GET',
@@ -61,11 +55,10 @@ class MidtransController {
 			},
 		})
 			.then(({ data }) => {
-				console.log(data)
 				res.status(200).json(data)
 			})
 			.catch((err) => {
-				console.log(err)
+				next(err)
 			})
 	}
 
