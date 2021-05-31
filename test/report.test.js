@@ -16,8 +16,8 @@ beforeAll((done) => {
      [
        {
         id: 1,
-        products: '[ { "ProductId": 1, "stockRecorded": 4, "stockReal": 4 }, { "ProductId": 2, "stockRecorded": 3, "stockReal": 3 } ]',
-        transactions: '[ { "id": 1, "UserId": 1, "Products": "[{ProductId:1, quantity:3}]", "totalPrice": 10500, "OrderId": "OD101-12197" } ]',
+        products: "[{\"ProductId\":1,\"stockRecorded\":4,\"stockReal\":4,\"price\":3500},{\"ProductId\":2,\"stockRecorded\":1,\"stockReal\":1,\"price\":4321},{\"ProductId\":3,\"stockRecorded\":4,\"stockReal\":4,\"price\":24566},{\"ProductId\":4,\"stockRecorded\":5,\"stockReal\":5,\"price\":412},{\"ProductId\":5,\"stockRecorded\":4,\"stockReal\":4,\"price\":421412}]",
+        transactions: "[{\"id\":1,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12197\"},{\"id\":2,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12198\"}]",
         income: 50000,
         loss: 0,
         createdAt: new Date(),
@@ -48,8 +48,8 @@ describe('Create Report / Success case', () => {
             .post('/reports')
             .set('token', token)
             .send({
-                products: '[ { "ProductId": 1, "stockRecorded": 4, "stockReal": 4 }, { "ProductId": 2, "stockRecorded": 3, "stockReal": 3 } ]',
-                transactions: '[ { "id": 1, "UserId": 1, "Products": "[{ProductId:1, quantity:3}]", "totalPrice": 10500, "OrderId": "OD101-12197" } ]',
+                products: "[{\"ProductId\":1,\"stockRecorded\":4,\"stockReal\":4,\"price\":3500},{\"ProductId\":2,\"stockRecorded\":1,\"stockReal\":1,\"price\":4321},{\"ProductId\":3,\"stockRecorded\":4,\"stockReal\":4,\"price\":24566},{\"ProductId\":4,\"stockRecorded\":5,\"stockReal\":5,\"price\":412},{\"ProductId\":5,\"stockRecorded\":4,\"stockReal\":4,\"price\":421412}]",
+                transactions: "[{\"id\":1,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12197\"},{\"id\":2,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12198\"}]",
                 income: 50000,
                 loss: 0
             })
@@ -58,8 +58,8 @@ describe('Create Report / Success case', () => {
                 const { body, status } = res
                 expect(status).toEqual(201)
                 expect(body).toHaveProperty('id', expect.any(Number))
-                expect(body).toHaveProperty('products', '[ { "ProductId": 1, "stockRecorded": 4, "stockReal": 4 }, { "ProductId": 2, "stockRecorded": 3, "stockReal": 3 } ]')
-                expect(body).toHaveProperty('transactions', '[ { "id": 1, "UserId": 1, "Products": "[{ProductId:1, quantity:3}]", "totalPrice": 10500, "OrderId": "OD101-12197" } ]')
+                expect(body).toHaveProperty('products', "[{\"ProductId\":1,\"stockRecorded\":4,\"stockReal\":4,\"price\":3500},{\"ProductId\":2,\"stockRecorded\":1,\"stockReal\":1,\"price\":4321},{\"ProductId\":3,\"stockRecorded\":4,\"stockReal\":4,\"price\":24566},{\"ProductId\":4,\"stockRecorded\":5,\"stockReal\":5,\"price\":412},{\"ProductId\":5,\"stockRecorded\":4,\"stockReal\":4,\"price\":421412}]")
+                expect(body).toHaveProperty('transactions', "[{\"id\":1,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12197\"},{\"id\":2,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12198\"}]")
                 expect(body).toHaveProperty('income', 50000)
                 expect(body).toHaveProperty('loss', expect.any(Number))
 
@@ -73,8 +73,8 @@ describe('Create Report / Failed case', () => {
         request(app)
             .post('/reports')
             .send({
-                products: '[ { "ProductId": 1, "stockRecorded": 4, "stockReal": 4 }, { "ProductId": 2, "stockRecorded": 3, "stockReal": 3 } ]',
-                transactions: '[ { "id": 1, "UserId": 1, "Products": "[{ProductId:1, quantity:3}]", "totalPrice": 10500, "OrderId": "OD101-12197" } ]',
+                products: "[{\"ProductId\":1,\"stockRecorded\":4,\"stockReal\":4,\"price\":3500},{\"ProductId\":2,\"stockRecorded\":1,\"stockReal\":1,\"price\":4321},{\"ProductId\":3,\"stockRecorded\":4,\"stockReal\":4,\"price\":24566},{\"ProductId\":4,\"stockRecorded\":5,\"stockReal\":5,\"price\":412},{\"ProductId\":5,\"stockRecorded\":4,\"stockReal\":4,\"price\":421412}]",
+                transactions: "[{\"id\":1,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12197\"},{\"id\":2,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12198\"}]",
                 income: 50000,
                 loss: 0
             })
@@ -92,8 +92,8 @@ describe('Create Report / Failed case', () => {
             .post('/reports')
             .set('token', token+2)
             .send({
-                products: '[ { "ProductId": 1, "stockRecorded": 4, "stockReal": 4 }, { "ProductId": 2, "stockRecorded": 3, "stockReal": 3 } ]',
-                transactions: '[ { "id": 1, "UserId": 1, "Products": "[{ProductId:1, quantity:3}]", "totalPrice": 10500, "OrderId": "OD101-12197" } ]',
+                products: "[{\"ProductId\":1,\"stockRecorded\":4,\"stockReal\":4,\"price\":3500},{\"ProductId\":2,\"stockRecorded\":1,\"stockReal\":1,\"price\":4321},{\"ProductId\":3,\"stockRecorded\":4,\"stockReal\":4,\"price\":24566},{\"ProductId\":4,\"stockRecorded\":5,\"stockReal\":5,\"price\":412},{\"ProductId\":5,\"stockRecorded\":4,\"stockReal\":4,\"price\":421412}]",
+                transactions: "[{\"id\":1,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12197\"},{\"id\":2,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12198\"}]",
                 income: 50000,
                 loss: 0
             })
@@ -111,7 +111,7 @@ describe('Create Report / Failed case', () => {
             .post('/reports')
             .set('token', token)
             .send({
-                products: '[ { "ProductId": 1, "stockRecorded": 4, "stockReal": 4 }, { "ProductId": 2, "stockRecorded": 3, "stockReal": 3 } ]',
+                products: "[{\"ProductId\":1,\"stockRecorded\":4,\"stockReal\":4,\"price\":3500},{\"ProductId\":2,\"stockRecorded\":1,\"stockReal\":1,\"price\":4321},{\"ProductId\":3,\"stockRecorded\":4,\"stockReal\":4,\"price\":24566},{\"ProductId\":4,\"stockRecorded\":5,\"stockReal\":5,\"price\":412},{\"ProductId\":5,\"stockRecorded\":4,\"stockReal\":4,\"price\":421412}]",
                 transactions: '',
                 income: 50000,
                 loss: 0
@@ -130,8 +130,8 @@ describe('Create Report / Failed case', () => {
             .post('/reports')
             .set('token', token)
             .send({
-                products: '[ { "ProductId": 1, "stockRecorded": 4, "stockReal": 4 }, { "ProductId": 2, "stockRecorded": 3, "stockReal": 3 } ]',
-                transactions: '[ { "id": 1, "UserId": 1, "Products": "[{ProductId:1, quantity:3}]", "totalPrice": 10500, "OrderId": "OD101-12197" } ]',
+                products: "[{\"ProductId\":1,\"stockRecorded\":4,\"stockReal\":4,\"price\":3500},{\"ProductId\":2,\"stockRecorded\":1,\"stockReal\":1,\"price\":4321},{\"ProductId\":3,\"stockRecorded\":4,\"stockReal\":4,\"price\":24566},{\"ProductId\":4,\"stockRecorded\":5,\"stockReal\":5,\"price\":412},{\"ProductId\":5,\"stockRecorded\":4,\"stockReal\":4,\"price\":421412}]",
+                transactions: "[{\"id\":1,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12197\"},{\"id\":2,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12198\"}]",
                 income: -50000,
                 loss: 0
             })
@@ -149,8 +149,8 @@ describe('Create Report / Failed case', () => {
                 .post('/reports')
                 .set('token', token)
                 .send({
-                    products: '[ { "ProductId": 1, "stockRecorded": 4, "stockReal": 4 }, { "ProductId": 2, "stockRecorded": 3, "stockReal": 3 } ]',
-                    transactions: '[ { "id": 1, "UserId": 1, "Products": "[{ProductId:1, quantity:3}]", "totalPrice": 10500, "OrderId": "OD101-12197" } ]',
+                    products: "[{\"ProductId\":1,\"stockRecorded\":4,\"stockReal\":4,\"price\":3500},{\"ProductId\":2,\"stockRecorded\":1,\"stockReal\":1,\"price\":4321},{\"ProductId\":3,\"stockRecorded\":4,\"stockReal\":4,\"price\":24566},{\"ProductId\":4,\"stockRecorded\":5,\"stockReal\":5,\"price\":412},{\"ProductId\":5,\"stockRecorded\":4,\"stockReal\":4,\"price\":421412}]",
+                    transactions: "[{\"id\":1,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12197\"},{\"id\":2,\"UserId\":1,\"Products\":\"[{ProductId:1, quantity:3},{ProductId:2, quantity:3},{ProductId:3, quantity:3}]\",\"totalPrice\":10500,\"OrderId\":\"OD101-12198\"}]",
                     income: 'apaaa',
                     loss: 0
                 })
