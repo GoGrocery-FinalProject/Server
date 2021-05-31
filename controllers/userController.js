@@ -76,7 +76,7 @@ class UserController {
                     return data
                 } else {
                     return User.create({
-                        name: givenName + familyName,
+                        name: name,
                         email: email,
                         password: 'PASSWORD' + Math.floor((Math.random() * 1000000000)).toString(),
                         phone_number: '0812' + Math.floor((Math.random() * 1000000000)).toString()

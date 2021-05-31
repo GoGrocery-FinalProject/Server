@@ -35,7 +35,8 @@ class TransactionController {
                         UserId: data[i].UserId,
                         products: data[i].products,
                         order_id: data[i].order_id,
-                        totalPrice: data[i].totalPrice
+                        totalPrice: data[i].totalPrice,
+                        createdAt: data[i].createdAt
                     })
                 }
                 res.status(200).json({
@@ -61,7 +62,8 @@ class TransactionController {
                         UserId: data[i].UserId,
                         products: data[i].products,
                         order_id: data[i].order_id,
-                        totalPrice: data[i].totalPrice
+                        totalPrice: data[i].totalPrice,
+                        createdAt: data[i].createdAt
                     })
                 }
                 res.status(200).json({

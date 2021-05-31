@@ -237,3 +237,87 @@ describe('Testing Login', () => {
         })
     })
 })
+
+describe('Testing Google-Login', () => {
+    it('Error No Name', (done) => {
+        const body = {
+            name: '',
+            email: 'mistercoip@gmail.com'
+        }
+        request(app)
+            .post('/glogin')
+            .send(body)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.statusCode).toEqual(400)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('message', 'Name cannot be empty')
+                    done()
+                }
+            })
+    })
+
+    it('Error No Email', (done) => {
+        const body = {
+            name: 'Coip',
+            email: ''
+        }
+        request(app)
+            .post('/glogin')
+            .send(body)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.statusCode).toEqual(400)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('message', 'Email is required')
+                    done()
+                }
+            })
+    })
+
+    it('Error Not E-Mail', (done) => {
+        const body = {
+            name: 'Coip',
+            email: 'mistercoip'
+        }
+        request(app)
+            .post('/glogin')
+            .send(body)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.statusCode).toEqual(400)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('message', 'Invalid email format')
+                    done()
+                }
+            })
+    })
+
+    it('Success', (done) => {
+        const body = {
+            name: 'Coip',
+            email: 'mistercoip@gmail.com'
+        }
+        request(app)
+            .post('/glogin')
+            .send(body)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.statusCode).toEqual(200)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('token')
+                    expect(typeof res.body.token).toEqual('string')
+                    expect(res.body).toHaveProperty('isAdmin')
+                    done()
+                }
+            })
+    })
+})
