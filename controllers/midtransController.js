@@ -24,20 +24,20 @@ class MidtransController {
 
 		snap.createTransaction(parameter).then((transaction) => {
 			link = transaction.redirect_url
+			return Transaction.create({
+				UserId: +req.body.userId,
+				products: JSON.stringify(parameter.item_details),
+				order_id: parameter.transaction_details.order_id,
+				totalPrice: parameter.transaction_details.gross_amount,
+			})
+		})
+		.then(() => {
+			res.status(200).json({ link, order_id:  parameter.transaction_details.order_id})
+		})
+		.catch((err) => {
+			next(err)
 		})
 
-		Transaction.create({
-			UserId: +req.body.userId,
-			products: JSON.stringify(parameter.item_details),
-			order_id: parameter.transaction_details.order_id,
-			totalPrice: parameter.transaction_details.gross_amount,
-		})
-			.then((result) => {
-				res.status(200).json({ link, order_id:  parameter.transaction_details.order_id})
-			})
-			.catch((err) => {
-				next(err)
-			})
 	}
 
 	static checkStatus(req, res, next) {
