@@ -358,7 +358,7 @@ note : when request successfully
 }
 ```
 
-## /PAY
+## POST/PAY
 
 ### > Response
 
@@ -390,7 +390,7 @@ note : when request successfully
 }
 ```
 
-## /PAY/STATUS
+## GET/PAY/STATUS
 
 ### > Response
 
