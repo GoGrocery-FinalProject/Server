@@ -78,27 +78,28 @@ class TransactionController {
     }
 
     static readOrderIdTransactions (req, res, next) {
-        Transaction.findAll({
+        Transaction.findOne({
             where: {
-                order_id: Number(req.params.id)
+                order_id: req.params.id
             }
         })
             .then((data) => {
-                const arr = []
-                for (let i = 0; i < data.length; i++) {
-                    arr.push({
-                        id: data[i].id,
-                        UserId: data[i].UserId,
-                        products: data[i].products,
-                        order_id: data[i].order_id,
-                        totalPrice: data[i].totalPrice,
-                        createdAt: data[i].createdAt,
-                        status: data[i].status
+                if (data) {
+                    res.status(200).json({
+                        id: data.id,
+                        UserId: data.UserId,
+                        products: data.products,
+                        order_id: data.order_id,
+                        totalPrice: data.totalPrice,
+                        createdAt: data.createdAt,
+                        status: data.status
+                    })
+                } else {
+                    next({
+                        code: 404,
+                        message: 'Data not found'
                     })
                 }
-                res.status(200).json({
-                    transactions: arr
-                })
             })
             .catch((err) => {
                 next(err)

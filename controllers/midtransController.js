@@ -35,6 +35,7 @@ class MidtransController {
 			res.status(200).json({ link, order_id:  parameter.transaction_details.order_id})
 		})
 		.catch((err) => {
+			console.log(err)
 			next(err)
 		})
 

@@ -40,7 +40,7 @@ beforeAll((done) => {
       updatedAt: new Date()
     }
   ], {})
-  .then((result) => {
+  .then(() => {
     done()
   })
   .catch((err) => {

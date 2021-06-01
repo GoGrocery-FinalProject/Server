@@ -8,8 +8,10 @@ note: when login admin
 
 ```JSON
 {
+ "name":"Mukti Metronom",
  "email":"muktientutz@mail.com",
- "password":"sistamania"
+ "password":"sistamania",
+ "phone_number":"081208120812"
 }
 ```
 
@@ -34,8 +36,10 @@ note: when login customer
 
 ```JSON
 {
+ "name":"Mukti Metronom",
  "email":"benidictivity@mail.com",
- "password":"korbantenggelam"
+ "password":"korbantenggelam",
+ "phone_number":"081208120812"
 }
 ```
 
@@ -79,6 +83,31 @@ note : when successfully register
     "name": "Aman aja",
     "email": "aman.aja@kak.com",
     "phone_number": "0812313123111",
+    "isAdmin": false
+}
+```
+## POST/glogin
+
+### > Request Body
+
+note: when register Customer
+
+```JSON
+{
+        "name": "Aman aja",
+        "email": "aman.aja@gmail.com"
+}
+```
+
+### > Response
+
+#### - Success Response (200-OK)
+
+note : when successfully register
+
+```JSON
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibmFtZSI6IkJlbmlkaWN0aXZpdHkiLCJlbWFpbCI6ImJlbmlkaWN0aXZpdHlAbWFpbC5jb20iLCJwaG9uZV9udW1iZXIiOiIwODE5MDgwOTE4MDgiLCJpYXQiOjE2MjIzNjQ4MDh9.lxZLlS2mm8B9Yi-bGGg5ikP-CZz-pYhzC6rBN8e_B6w",
     "isAdmin": false
 }
 ```
