@@ -28,6 +28,7 @@ beforeAll((done) => {
             products: '[{\"ProductId:\"1,\"quantity:\"2,\"price\":3500\"},\"{\"ProductId:\"2,\"quantity:\"3,\"price\":5500\"}]',
             order_id: 'OD101-12197',
             totalPrice: 20000,
+            status: 'unpaid',
             createdAt: new Date(),
             updatedAt: new Date()
         },
@@ -37,26 +38,21 @@ beforeAll((done) => {
             products: '[{\"ProductId:\"10,\"quantity:\"20,\"price\":35000\"},\"{\"ProductId:\"20,\"quantity:\"30,\"price\":55000\"}]',
             order_id: 'OD101-12198',
             totalPrice: 194800,
+            status: 'unpaid',
             createdAt: new Date(),
             updatedAt: new Date()
         }
     ], {})
-    .then(() => {
-        done()
-    })
-    .catch((err) => {
-        done(err)
-    })
+        .then(() => {
+            done()
+        })
+        .catch((err) => {
+            done(err)
+        })
 })
 
 afterAll((done) => {
-    Transaction.destroy({
-        where: {
-            [Op.not]: [
-                {id: [1, 2]}
-            ]
-        }
-    })
+    queryInterface.bulkDelete('Transactions', null, {})
         .then(() => {
             done()
         })
@@ -413,7 +409,7 @@ describe('Read Transaction by User ID', () => {
 describe('Read Transaction by Order ID', () => {
     it('Error No Token', (done) => {
         request(app)
-            .get('/transactions/orderid/')
+            .get('/transactions/orderid/OD101-12197')
             .end((err, res) => {
                 if (err) {
                     done(err)
@@ -428,7 +424,7 @@ describe('Read Transaction by Order ID', () => {
 
     it('Error Invalid Token', (done) => {
         request(app)
-            .get('/transactions/2')
+            .get('/transactions/orderid/OD101-12197')
             .set('token', token+2)
             .end((err, res) => {
                 if (err) {
@@ -444,7 +440,7 @@ describe('Read Transaction by Order ID', () => {
 
     it('Error Not Required Token', (done) => {
         request(app)
-            .get('/transactions/2')
+            .get('/transactions/orderid/OD101-12197')
             .set('token', tokenAdmin)
             .end((err, res) => {
                 if (err) {
@@ -458,25 +454,9 @@ describe('Read Transaction by Order ID', () => {
             })
     })
 
-    it('Error Not Authorized', (done) => {
-        request(app)
-            .get('/transactions/3')
-            .set('token', token)
-            .end((err, res) => {
-                if (err) {
-                    done(err)
-                } else {
-                    expect(res.statusCode).toEqual(401)
-                    expect(typeof res.body).toEqual('object')
-                    expect(res.body).toHaveProperty('message', "That's not yours")
-                    done()
-                }
-            })
-    })
-
     it('Error Not Found', (done) => {
         request(app)
-            .get('/transactions/2021')
+            .get('/transactions/orderid/OD101-20000')
             .set('token', token)
             .end((err, res) => {
                 if (err) {
@@ -492,7 +472,7 @@ describe('Read Transaction by Order ID', () => {
 
     it('Success', (done) => {
         request(app)
-            .get('/transactions/2')
+            .get('/transactions/orderid/OD101-12197')
             .set('token', token)
             .end((err, res) => {
                 if (err) {
@@ -500,7 +480,18 @@ describe('Read Transaction by Order ID', () => {
                 } else {
                     expect(res.statusCode).toEqual(200)
                     expect(typeof res.body).toEqual('object')
-                    expect(res.body).toHaveProperty('transactions')
+                    expect(res.body).toHaveProperty('id')
+                    expect(typeof res.body.id).toEqual('number')
+                    expect(res.body).toHaveProperty('UserId')
+                    expect(typeof res.body.UserId).toEqual('number')
+                    expect(res.body).toHaveProperty('products')
+                    expect(res.body).toHaveProperty('order_id')
+                    expect(typeof res.body.order_id).toEqual('string')
+                    expect(res.body).toHaveProperty('totalPrice')
+                    expect(typeof res.body.totalPrice).toEqual('number')
+                    expect(res.body).toHaveProperty('status')
+                    expect(typeof res.body.status).toEqual('string')
+                    expect(res.body).toHaveProperty('createdAt')
                     done()
                 }
             })
