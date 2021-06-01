@@ -404,8 +404,8 @@ describe('Delete Report / Failed case', () => {
             .end(function (err, res) {
                 if (err) done(err);
                 const { body, status } = res
-                expect(status).toEqual(404)
-                expect(body).toHaveProperty('message', 'Data not found')
+                expect(status).toEqual(500)
+                expect(body).toHaveProperty('message', 'Internal Server Error')
 
                 done()
             })

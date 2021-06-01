@@ -6,9 +6,6 @@ class productController {
       .then((products) => {
         res.status(200).json(products)
       })
-      .catch((error) => {
-        next(error)
-      })
   }
 
   static findByBarcode(req, res, next) {
@@ -22,11 +19,11 @@ class productController {
           res.status(200).json(product)
         }
         else {
-          res.status(404).json({ message: 'Data not found'})
+          next({
+            code: 404,
+            message: 'Data not found'
+          })
         }
-      })
-      .catch((error) => {
-        next(error)
       })
   }
 
@@ -93,7 +90,7 @@ class productController {
         }
     })
     .then((product) => {
-        res.status(200).json({ message: 'Product success to delete'})
+      res.status(200).json({ message: 'Product success to delete'})
     })
     .catch((error) => {
       next(error)

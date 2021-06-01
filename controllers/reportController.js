@@ -6,9 +6,6 @@ class reportController {
       .then((reports) => {
         res.status(200).json(reports)
       })
-      .catch((error) => {
-        next(error)
-      })
   }
 
   static findById(req, res, next) {
@@ -57,10 +54,7 @@ class reportController {
       if (report !== 0) {
           res.status(200).json({ message: 'Report success to delete'})
         } else {
-          next({
-            code: 404,
-            message: 'Data not found'
-          })
+          throw new Error
         }
     })
     .catch((error) => {
