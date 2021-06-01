@@ -366,6 +366,7 @@ note : when request successfully
 
 ```JSON
 {
+    "userId": 1,
     "gross_amount": 10000,
     "item_details": [
         {
@@ -384,7 +385,8 @@ note : when request successfully
 
 ```JSON
 {
-    "link": "https://app.midtrans.com/snap/v2/vtweb/b32df030-bcbf-47f5-7aedf243a657"
+    "link": "https://app.midtrans.com/snap/v2/vtweb/b32df030-bcbf-47f5-7aedf243a657",
+    "order_id": "ORDER-101-93132131"
 }
 ```
 
