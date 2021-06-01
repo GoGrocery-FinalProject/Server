@@ -97,6 +97,8 @@ describe('Read Product / Failed case', () => {
                 })
         })
 })
+
+
 let barcode = 1414100003
 describe('Read Product by Barcode/ Success case', () => {
     it('Should return response 200', (done) => {
@@ -107,11 +109,11 @@ describe('Read Product by Barcode/ Success case', () => {
                 if (err) done(err);
                 const { body, status } = res
                 expect(status).toEqual(200)
-                expect(body).toHaveProperty('id')
+                expect(body).toHaveProperty('id',  expect.any(Number))
                 expect(body).toHaveProperty('name', 'Taro Snack Net Seaweed Pck 70G')
                 expect(body).toHaveProperty('image_url', 'https://assets.klikindomaret.com/share/20055205/20055205_1.jpg')
                 expect(body).toHaveProperty('description', 'Rasa Seaweed ukuran 70 Gram')
-                expect(body).toHaveProperty('barcode_number', '1414100003')
+                expect(body).toHaveProperty('barcode_number', barcode+'')
                 expect(body).toHaveProperty('stock', 5)
                 expect(body).toHaveProperty('price', 9500)
                 expect(body).toHaveProperty('stockBefore', 5)
@@ -155,6 +157,7 @@ describe('Read Product by Barcode/ Failed case', () => {
                     if (err) done(err);
                     const { body, status } = res
                     expect(status).toEqual(404)
+                    expect(typeof res.body).toEqual('object')
                     expect(body).toHaveProperty('message', 'Data not found')
                     done()
                 })
@@ -327,7 +330,93 @@ describe('Create Product / Failed case', () => {
 })
 
 let idProduct = 1
-describe('Update Product / Success case', () => {
+
+describe('Update Product PATCH / Success case', () => {
+    it('Should return response 201', (done) => {
+
+        request(app)
+        .patch('/products/' + idProduct)
+        .set('token', token)
+        .send({
+            stock: 5,
+        })
+        .end(function (err, res) {
+            if (err) done(err);
+            const {body, status} = res
+            expect(status).toEqual(200)
+            expect(body).toHaveProperty('message', 'Data has been updated')
+            
+            done()
+        })
+    })
+})
+
+describe('Update Product PATCH / Failed case', () => {
+    it('Tidak menyertakan access token', (done) => {
+        request(app)
+        .patch('/products/' + idProduct)
+            .send({
+                stock: 5
+            })
+            .end(function (err, res) {
+                if (err) done(err);
+                const { body, status } = res
+                expect(status).toEqual(401)
+                expect(body).toHaveProperty('message', 'Not Authenticated')
+                done()
+            })
+    })
+
+    it('Menyertakan access token tapi bukan punya admin', (done) => {
+        request(app)
+        .patch('/products/' + idProduct)
+            .set('token', token+2)
+            .send({
+                stock: 5,
+            })
+            .end(function (err, res) {
+                if (err) done(err);
+                const { body, status } = res
+                expect(status).toEqual(401)
+                expect(body).toHaveProperty('message', 'Not Authenticated')
+                done()
+            })
+    })
+
+        it('field yg required tidak diisi', (done) =>{
+            request(app)
+            .patch('/products/' + idProduct)
+            .set('token', token)
+            .send({
+                stock: 'coba',
+            })
+            .end(function (err, res) {
+                if (err) done(err);
+                const { body, status } = res
+                expect(status).toEqual(400)
+                expect(body).toHaveProperty('message', 'Must number')
+                done()
+            })
+        })
+
+        it('stock diisikan angka minus', (done) =>{
+            request(app)
+            .patch('/products/' + idProduct)
+            .set('token', token)
+            .send({
+                stock: -5,
+            })
+            .end(function (err, res) {
+                if (err) done(err);
+                const { body, status } = res
+                expect(status).toEqual(400)
+                expect(body).toHaveProperty('message', 'Cannot be negative value')
+                done()
+            })
+        })
+})
+
+describe('Update Product PUT/ Success case', () => {
     it('Should return response 201', (done) => {
 
         request(app)
@@ -354,10 +443,10 @@ describe('Update Product / Success case', () => {
     })
 })
 
-describe('Update Product / Failed case', () => {
+describe('Update Product PUT/ Failed case', () => {
     it('Tidak menyertakan access token', (done) => {
         request(app)
-            .post('/products')
+        .put('/products/' + idProduct)
             .send({
                 id: idProduct,
                 name: 'CHIKI BALLS Rasa Keju 100g',
@@ -379,7 +468,7 @@ describe('Update Product / Failed case', () => {
 
     it('Menyertakan access token tapi bukan punya admin', (done) => {
         request(app)
-            .post('/products')
+        .put('/products/' + idProduct)
             .set('token', token+2)
             .send({
                 id: idProduct,
@@ -402,7 +491,7 @@ describe('Update Product / Failed case', () => {
 
         it('field yg required tidak diisi', (done) =>{
             request(app)
-            .post('/products')
+            .put('/products/' + idProduct)
             .set('token', token)
             .send({
                 name: '',
@@ -424,7 +513,7 @@ describe('Update Product / Failed case', () => {
 
         it('stock diisikan angka minus', (done) =>{
             request(app)
-            .post('/products')
+            .put('/products/' + idProduct)
             .set('token', token)
             .send({
                 name: 'CHIKI BALLS Rasa Keju 100g',
@@ -446,7 +535,7 @@ describe('Update Product / Failed case', () => {
 
         it('price diisikan angka minus', (done) =>{
              request(app)
-            .post('/products')
+             .put('/products/' + idProduct)
             .set('token', token)
             .send({
                 name: 'CHIKI BALLS Rasa Keju 100g',
@@ -468,7 +557,7 @@ describe('Update Product / Failed case', () => {
 
         it('field diisikan tipe data yg tidak sesuai', (done) =>{
             request(app)
-                .post('/products')
+            .put('/products/' + idProduct)
                 .set('token', token)
                 .send({
                     name: 'CHIKI BALLS Rasa Keju 100g',

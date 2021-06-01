@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           args: true,
-          msg: "List of Product cannot be empty"
+          msg: "List of Transaction cannot be empty"
         }
       }
     },

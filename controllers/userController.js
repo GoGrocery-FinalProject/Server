@@ -43,6 +43,8 @@ class UserController {
                             phone_number: data.phone_number
                         })
                         res.status(200).json({
+                            userId: data.id,
+                            name: data.name,
                             token: token,
                             isAdmin: data.isAdmin
                         })
