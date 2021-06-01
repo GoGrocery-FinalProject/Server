@@ -23,6 +23,7 @@ beforeAll((done) => {
     queryInterface.bulkInsert('Transactions', 
     [
         {
+            id: 1,
             UserId: 2,
             products: '[{\"ProductId:\"1,\"quantity:\"2,\"price\":3500\"},\"{\"ProductId:\"2,\"quantity:\"3,\"price\":5500\"}]',
             order_id: 'OD101-12197',
@@ -31,6 +32,7 @@ beforeAll((done) => {
             updatedAt: new Date()
         },
         {
+            id: 2,
             UserId: 3,
             products: '[{\"ProductId:\"10,\"quantity:\"20,\"price\":35000\"},\"{\"ProductId:\"20,\"quantity:\"30,\"price\":55000\"}]',
             order_id: 'OD101-12198',
@@ -315,6 +317,103 @@ describe('Read Transaction by User ID', () => {
     it('Error No Token', (done) => {
         request(app)
             .get('/transactions/2')
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.statusCode).toEqual(401)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('message', 'Not Authenticated')
+                    done()
+                }
+            })
+    })
+
+    it('Error Invalid Token', (done) => {
+        request(app)
+            .get('/transactions/2')
+            .set('token', token+2)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.statusCode).toEqual(401)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('message', 'Not Authenticated')
+                    done()
+                }
+            })
+    })
+
+    it('Error Not Required Token', (done) => {
+        request(app)
+            .get('/transactions/2')
+            .set('token', tokenAdmin)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.statusCode).toEqual(401)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('message', 'You must login first')
+                    done()
+                }
+            })
+    })
+
+    it('Error Not Authorized', (done) => {
+        request(app)
+            .get('/transactions/3')
+            .set('token', token)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.statusCode).toEqual(401)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('message', "That's not yours")
+                    done()
+                }
+            })
+    })
+
+    it('Error Not Found', (done) => {
+        request(app)
+            .get('/transactions/2021')
+            .set('token', token)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.statusCode).toEqual(404)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('message', "Data not found")
+                    done()
+                }
+            })
+    })
+
+    it('Success', (done) => {
+        request(app)
+            .get('/transactions/2')
+            .set('token', token)
+            .end((err, res) => {
+                if (err) {
+                    done(err)
+                } else {
+                    expect(res.statusCode).toEqual(200)
+                    expect(typeof res.body).toEqual('object')
+                    expect(res.body).toHaveProperty('transactions')
+                    done()
+                }
+            })
+    })
+})
+
+describe('Read Transaction by Order ID', () => {
+    it('Error No Token', (done) => {
+        request(app)
+            .get('/transactions/orderid/')
             .end((err, res) => {
                 if (err) {
                     done(err)

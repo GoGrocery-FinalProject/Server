@@ -94,7 +94,9 @@ class UserController {
                 })
                 res.status(200).json({
                     token: token,
-                    isAdmin: data.isAdmin
+                    isAdmin: data.isAdmin,
+                    userId: data.id,
+                    name: data.name,
                 })
             })
             .catch((err) => {
