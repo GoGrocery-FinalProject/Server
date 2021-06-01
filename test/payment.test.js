@@ -57,7 +57,7 @@ afterAll((done) => {
                 {id: [1, 2, 3]}
             ]
         }
-    })
+      })
     })
     .then(() => {
       done()
