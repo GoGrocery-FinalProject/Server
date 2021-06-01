@@ -1,7 +1,8 @@
 const request = require('supertest')
 const app = require('../app')
-const { Product,sequelize } = require('../models')
+const { User, sequelize } = require('../models')
 const {queryInterface} = sequelize
+const { Op } = require('sequelize')
 
 beforeAll((done) => {
     queryInterface.bulkInsert('Products', 
@@ -50,7 +51,13 @@ beforeAll((done) => {
 afterAll((done) => {
     queryInterface.bulkDelete('Products', null, {})
     .then(() => {
-      queryInterface.bulkDelete('Users', null, {})
+      User.destroy({
+        where: {
+            [Op.not]: [
+                {id: [1, 2, 3]}
+            ]
+        }
+    })
     })
     .then(() => {
       done()
