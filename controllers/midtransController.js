@@ -41,7 +41,6 @@ class MidtransController {
 	}
 
 	static checkStatus(req, res, next) {
-		console.log(req.body, '<<<<<<<<<<<<<<<<')
 		axios({
 			url: `https://api.sandbox.midtrans.com/v2/${req.body.order_id}/status`,
 			method: 'GET',
