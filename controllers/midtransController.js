@@ -7,7 +7,8 @@ const axios = require('axios')
 //ada di dashboard midtrans => notifcation url di masukan endpointnya
 
 class MidtransController {
-	static pay(req, res) {
+	static pay(req, res, next) {
+		let link
 		let snap = new midtransClient.Snap({
 			isProduction: false,
 			serverKey: 'SB-Mid-server-49N3DSl3CDLcYTrkloIpfJsm',
@@ -16,7 +17,7 @@ class MidtransController {
 
 		let parameter = {
 			transaction_details: {
-				order_id: Math.round(new Date().getTime() / 1000),
+				order_id: 'ORDER-101-' + Math.round(new Date().getTime() / 1000),
 				gross_amount: req.body.gross_amount,
 			},
 			item_details: req.body.item_details,
@@ -58,7 +59,6 @@ class MidtransController {
 			},
 		})
 			.then(({ data }) => {
-				console.log(data)
 				res.status(200).json(data)
 			})
 			.catch((err) => {
@@ -96,10 +96,15 @@ class MidtransController {
           }
         })
         .catch((err) => {
-					console.log(err.message)
           next(err)
         })
-    }
+    } else {
+			if (transactionStatus === 'pending') {
+				res.status(200)
+			} else {
+				next({name: 'internal server error'})
+			}
+		}
   }
 }
 
