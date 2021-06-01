@@ -7,7 +7,7 @@ const transactionRoutes = require('./transactionRoute')
 const { authenticate } = require('../middlewares/auth.js')
 
 router.use(userRoutes)
-router.use(midtransRoutes)
+router.use('/pay', midtransRoutes)
 router.use(authenticate)
 router.use('/products', productRoutes)
 router.use('/reports', reportRoutes)
