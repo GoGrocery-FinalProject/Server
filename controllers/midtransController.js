@@ -32,8 +32,8 @@ class MidtransController {
 			order_id: parameter.transaction_details.order_id,
 			totalPrice: parameter.transaction_details.gross_amount,
 		})
-			.then(() => {
-				res.status(200).json({ link, order_id:  parameter.transaction_details.order_id})
+			.then((result) => {
+				res.status(200).json({ order_id:  parameter.transaction_details.order_id})
 			})
 			.catch((err) => {
 				next(err)
@@ -63,7 +63,6 @@ class MidtransController {
 	}
 
 	static NotificationHandler(req, res) {
-		console.log(req.body)
 		let order_id = req.body.order_id
 		let transactionStatus = req.body.transaction_status
 
