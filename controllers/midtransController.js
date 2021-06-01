@@ -4,6 +4,7 @@ const axios = require('axios')
 
 class MidtransController {
 	static pay(req, res, next) {
+		let link
 		let snap = new midtransClient.Snap({
 			isProduction: false,
 			serverKey: 'SB-Mid-server-OkJLecqkB5bPgBQhcPsJCKWY',
@@ -22,18 +23,17 @@ class MidtransController {
 		}
 
 		snap.createTransaction(parameter).then((transaction) => {
-			let link = transaction.redirect_url
-			res.status(200).json({ link })
+			link = transaction.redirect_url
 		})
 
 		Transaction.create({
-			UserId: req.body.userId,
+			UserId: +req.body.userId,
 			products: JSON.stringify(parameter.item_details),
 			order_id: parameter.transaction_details.order_id,
-			totalPrice: totalPrice,
+			totalPrice: parameter.transaction_details.gross_amount,
 		})
-			.then((res) => {
-				console.log(res)
+			.then(() => {
+				res.status(200).json({ link, order_id:  parameter.transaction_details.order_id})
 			})
 			.catch((err) => {
 				next(err)
@@ -41,6 +41,7 @@ class MidtransController {
 	}
 
 	static checkStatus(req, res, next) {
+		console.log(req.body, '<<<<<<<<<<<<<<<<')
 		axios({
 			url: `https://api.sandbox.midtrans.com/v2/${req.body.order_id}/status`,
 			method: 'GET',
@@ -63,6 +64,7 @@ class MidtransController {
 	}
 
 	static NotificationHandler(req, res) {
+		console.log(req.body)
 		let order_id = req.body.order_id
 		let transactionStatus = req.body.transaction_status
 
@@ -100,6 +102,12 @@ class MidtransController {
 				.catch((err) => {
 					next(err)
 				})
+		} else {
+			if (transactionStatus === 'pending') {
+				res.status(200)
+			} else {
+				next({name: 'internal server error'})
+			}
 		}
 	}
 }
