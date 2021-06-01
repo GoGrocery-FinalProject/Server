@@ -10,8 +10,8 @@ class MidtransController {
 	static pay(req, res) {
 		let snap = new midtransClient.Snap({
 			isProduction: false,
-			serverKey: 'SB-Mid-server-OkJLecqkB5bPgBQhcPsJCKWY',
-			clientKey: 'SB-Mid-client-sW5AHuqn__lVIlq3',
+			serverKey: 'SB-Mid-server-49N3DSl3CDLcYTrkloIpfJsm',
+			clientKey: 'SB-Mid-client-PCbLw1JpX0QdlFiK',
 		})
 
 		let parameter = {
@@ -26,11 +26,16 @@ class MidtransController {
 		}
 
 		snap.createTransaction(parameter).then((transaction) => {
-			// send transaction token && link
-			let link = transaction.redirect_url
-			let transactionToken = transaction.token
-			let clientKey = snap.apiConfig.clientKey
-			res.status(200).json({ link, transactionToken, clientKey })
+			link = transaction.redirect_url
+			return Transaction.create({
+				UserId: +req.body.userId,
+				products: JSON.stringify(parameter.item_details),
+				order_id: parameter.transaction_details.order_id,
+				totalPrice: parameter.transaction_details.gross_amount,
+			})
+		})
+		.then(() => {
+			res.status(200).json({ link, order_id:  parameter.transaction_details.order_id})
 		})
 		.catch(err => {
 			next(err)
@@ -38,7 +43,7 @@ class MidtransController {
 	}
 
 	//diganti endpoint baru untuk handle notif dari midtrans (webhooks)
-	static checkStatus(req, res) {
+	static checkStatus(req, res, next) {
 		axios({
 			url: `https://api.sandbox.midtrans.com/v2/${req.body.order_id}/status`,
 			method: 'GET',
@@ -47,7 +52,7 @@ class MidtransController {
 				Accept: 'application/json',
 				Authorization:
 					'Basic ' +
-					Buffer.from('SB-Mid-server-OkJLecqkB5bPgBQhcPsJCKWY').toString(
+					Buffer.from('SB-Mid-server-49N3DSl3CDLcYTrkloIpfJsm').toString(
 						'base64'
 					),
 			},
