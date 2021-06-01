@@ -7,8 +7,8 @@ class MidtransController {
 		let link
 		let snap = new midtransClient.Snap({
 			isProduction: false,
-			serverKey: 'SB-Mid-server-OkJLecqkB5bPgBQhcPsJCKWY',
-			clientKey: 'SB-Mid-client-sW5AHuqn__lVIlq3',
+			serverKey: 'SB-Mid-server-49N3DSl3CDLcYTrkloIpfJsm',
+			clientKey: 'SB-Mid-client-PCbLw1JpX0QdlFiK',
 		})
 
 		let parameter = {
