@@ -226,16 +226,6 @@ describe('Testing Login', () => {
                 }
             })
     })
-
-    afterAll(() => {
-        User.destroy({
-            where: {
-                [Op.not]: [
-                    {id: [1, 2, 3]}
-                ]
-            }
-        })
-    })
 })
 
 describe('Testing Google-Login', () => {
@@ -319,5 +309,15 @@ describe('Testing Google-Login', () => {
                     done()
                 }
             })
+    })
+})
+
+afterAll(() => {
+    User.destroy({
+        where: {
+            [Op.not]: [
+                {id: [1, 2, 3]}
+            ]
+        }
     })
 })
