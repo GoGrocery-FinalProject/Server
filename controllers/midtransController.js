@@ -33,7 +33,7 @@ class MidtransController {
 			totalPrice: parameter.transaction_details.gross_amount,
 		})
 			.then((result) => {
-				res.status(200).json({ order_id:  parameter.transaction_details.order_id})
+				res.status(200).json({ link, order_id:  parameter.transaction_details.order_id})
 			})
 			.catch((err) => {
 				next(err)
