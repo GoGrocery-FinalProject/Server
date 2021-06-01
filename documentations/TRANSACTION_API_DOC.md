@@ -43,7 +43,7 @@ note : when success
 
 ---
 
-## GET/products/:id
+## GET/transactions/:id
 
 ### > Request Headers
 
@@ -56,7 +56,7 @@ note : when success
 ### > Request Params
 
 ```JSON
-"barcode_number": 1414100003
+"id": 2
 ```
 
 ### > Request Body
