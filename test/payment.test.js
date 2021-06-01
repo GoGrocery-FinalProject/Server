@@ -50,7 +50,7 @@ beforeAll((done) => {
 afterAll((done) => {
     queryInterface.bulkDelete('Products', null, {})
     .then(() => {
-      queryInterface.bulkDelete('Users', null, {})
+      return queryInterface.bulkDelete('Users', null, {})
     })
     .then(() => {
       done()

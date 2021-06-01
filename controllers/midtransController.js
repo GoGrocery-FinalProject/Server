@@ -7,8 +7,8 @@ class MidtransController {
 		let link
 		let snap = new midtransClient.Snap({
 			isProduction: false,
-			serverKey: 'SB-Mid-server-OkJLecqkB5bPgBQhcPsJCKWY',
-			clientKey: 'SB-Mid-client-sW5AHuqn__lVIlq3',
+			serverKey: 'SB-Mid-server-49N3DSl3CDLcYTrkloIpfJsm',
+			clientKey: 'SB-Mid-client-PCbLw1JpX0QdlFiK',
 		})
 
 		let parameter = {
@@ -24,20 +24,20 @@ class MidtransController {
 
 		snap.createTransaction(parameter).then((transaction) => {
 			link = transaction.redirect_url
+			return Transaction.create({
+				UserId: +req.body.userId,
+				products: JSON.stringify(parameter.item_details),
+				order_id: parameter.transaction_details.order_id,
+				totalPrice: parameter.transaction_details.gross_amount,
+			})
+		})
+		.then(() => {
+			res.status(200).json({ link, order_id:  parameter.transaction_details.order_id})
+		})
+		.catch((err) => {
+			next(err)
 		})
 
-		Transaction.create({
-			UserId: +req.body.userId,
-			products: JSON.stringify(parameter.item_details),
-			order_id: parameter.transaction_details.order_id,
-			totalPrice: parameter.transaction_details.gross_amount,
-		})
-			.then((result) => {
-				res.status(200).json({ link, order_id:  parameter.transaction_details.order_id})
-			})
-			.catch((err) => {
-				next(err)
-			})
 	}
 
 	static checkStatus(req, res, next) {
