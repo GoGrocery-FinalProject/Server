@@ -1,6 +1,10 @@
 const midtransClient = require('midtrans-client')
-const { Transaction } = require('../models')
+const { Transaction, Product } = require('../models')
 const axios = require('axios')
+
+//flow midtrans ketika transakis dibuat inpput 2 kali post database intern dan post database midtrans
+//pakai webhooks > sediain endpoint
+//ada di dashboard midtrans => notifcation url di masukan endpointnya
 
 class MidtransController {
 	static pay(req, res, next) {
@@ -34,13 +38,12 @@ class MidtransController {
 		.then(() => {
 			res.status(200).json({ link, order_id:  parameter.transaction_details.order_id})
 		})
-		.catch((err) => {
-			console.log(err)
+		.catch(err => {
 			next(err)
 		})
-
 	}
 
+	//diganti endpoint baru untuk handle notif dari midtrans (webhooks)
 	static checkStatus(req, res, next) {
 		axios({
 			url: `https://api.sandbox.midtrans.com/v2/${req.body.order_id}/status`,
@@ -63,52 +66,46 @@ class MidtransController {
 			})
 	}
 
-	static NotificationHandler(req, res) {
-		let order_id = req.body.order_id
-		let transactionStatus = req.body.transaction_status
+	static NotificationHandler(req, res, next) {
+    let order_id = req.body.order_id;
+    let transactionStatus = req.body.transaction_status;
 
-		if (transactionStatus == 'settlement') {
-			Transaction.findOne({ where: { order_id: order_id } })
-				.then((data) => {
-					if (data) {
-						let products = JSON.parse(data.products)
-						products.forEach((el) => {
-							let newStock
-							products.findOne({ where: { id: el.id } }).then((data) => {
-								newStock = data.stock - el.quantity
-								Product.update(
-									{ stock: newStock },
-									{
-										where: {
-											id: +data.id,
-										},
-									}
-								)
-							})
-						})
-						Transaction.update(
-							{ status: 'paid' },
-							{ where: { order_id: order_id } }
-						).then(() => {
-							res.status(200).JSON({ ok: 'OK' })
-						})
-					} else {
-						res
-							.status(404)
-							.JSON({ status: 'notfound', message: 'try again 2 times' })
-					}
-				})
-				.catch((err) => {
-					next(err)
-				})
-		} else {
+    if (transactionStatus == 'settlement'){
+      Transaction.findOne({ where: { order_id: order_id } })
+        .then((data) => {
+          if(data){
+            let products = JSON.parse(data.products)
+            products.forEach(el => {
+              let newStock
+              Product.findOne({ where: { id: el.id }})
+                .then((data) => {
+                  newStock = data.stock - el.quantity
+                  Product.update({ stock: newStock }, {
+                    where: {
+                      id: +data.id
+                    }
+                  })
+                })
+            })
+            Transaction.update({ status: "paid"}, { where: { order_id: order_id }})
+              .then(() => {
+                res.status(200).json({ ok: 'OK' })
+              })
+          } else {
+            res.status(404).json({ status: "notfound", message: "try again 2 times"})
+          }
+        })
+        .catch((err) => {
+          next(err)
+        })
+    } else {
 			if (transactionStatus === 'pending') {
 				res.status(200)
 			} else {
 				next({name: 'internal server error'})
 			}
 		}
-	}
+  }
 }
 
 module.exports = MidtransController
