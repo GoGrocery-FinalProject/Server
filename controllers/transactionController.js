@@ -36,7 +36,8 @@ class TransactionController {
                         products: data[i].products,
                         order_id: data[i].order_id,
                         totalPrice: data[i].totalPrice,
-                        createdAt: data[i].createdAt
+                        createdAt: data[i].createdAt,
+                        status: data[i].status
                     })
                 }
                 res.status(200).json({
@@ -63,7 +64,8 @@ class TransactionController {
                         products: data[i].products,
                         order_id: data[i].order_id,
                         totalPrice: data[i].totalPrice,
-                        createdAt: data[i].createdAt
+                        createdAt: data[i].createdAt,
+                        status: data[i].status
                     })
                 }
                 res.status(200).json({
@@ -90,7 +92,8 @@ class TransactionController {
                         products: data[i].products,
                         order_id: data[i].order_id,
                         totalPrice: data[i].totalPrice,
-                        createdAt: data[i].createdAt
+                        createdAt: data[i].createdAt,
+                        status: data[i].status
                     })
                 }
                 res.status(200).json({
