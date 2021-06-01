@@ -73,7 +73,7 @@ class MidtransController {
 						let products = JSON.parse(data.products)
 						products.forEach((el) => {
 							let newStock
-							products.findOne({ where: { id: el.ProductId } }).then((data) => {
+							products.findOne({ where: { id: el.id } }).then((data) => {
 								newStock = data.stock - el.quantity
 								Product.update(
 									{ stock: newStock },

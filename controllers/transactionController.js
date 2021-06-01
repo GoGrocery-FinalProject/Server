@@ -74,6 +74,33 @@ class TransactionController {
                 next(err)
             })
     }
+
+    static readOrderIdTransactions (req, res, next) {
+        Transaction.findAll({
+            where: {
+                order_id: Number(req.params.id)
+            }
+        })
+            .then((data) => {
+                const arr = []
+                for (let i = 0; i < data.length; i++) {
+                    arr.push({
+                        id: data[i].id,
+                        UserId: data[i].UserId,
+                        products: data[i].products,
+                        order_id: data[i].order_id,
+                        totalPrice: data[i].totalPrice,
+                        createdAt: data[i].createdAt
+                    })
+                }
+                res.status(200).json({
+                    transactions: arr
+                })
+            })
+            .catch((err) => {
+                next(err)
+            })
+    }
 }
 
 module.exports = TransactionController
