@@ -2,7 +2,6 @@ const { Product } = require('../models')
 
 class productController {
   static showAll(req, res, next) {
-    // console.log('masuk all')
     Product.findAll()
       .then((products) => {
         res.status(200).json(products)
@@ -13,28 +12,21 @@ class productController {
   }
 
   static findByBarcode(req, res, next) {
-    // console.log(req.params, "ini paramsnya")
     Product.findOne({
       where: {
         barcode_number: req.params.barcode_number
       }
     })
       .then((product) => {
-        // console.log(product, 'ini masuk ke find id')
         if (product !== null) {
           res.status(200).json(product)
-        } else {
-          next({
-            code: 404,
-            message: 'Data not found'
-          })
+        }
+        else {
+          res.status(404).json({ message: 'Data not found'})
         }
       })
       .catch((error) => {
-        next({
-          code: 500,
-          message: 'Internal Server Error'
-        })
+        next(error)
       })
   }
 
@@ -70,24 +62,13 @@ class productController {
     Product.update(updateProduct, {
       where: {
         id: +req.params.id
-      },
-      returning: true
+      }
     })
       .then((product) => {
         res.status(200).json({ message: 'Data has been updated'})
       })
       .catch((error) => {
-        if (error.message) {
-          next({
-            code: 400,
-            message: error
-          })
-        } else {
-          next({
-            code: 500,
-            message: 'Internal Server Error'
-          })
-        }
+        next(error)
       })
   }
 
@@ -95,17 +76,13 @@ class productController {
     Product.update({ stock: req.body.stock}, {
       where: {
         id: +req.params.id
-      },
-      returning: true //biar keliatan langsung datanya pas di hit
+      }
     })
     .then((product) => {
       res.status(200).json({ message: 'Data has been updated'})
     })
-    .catch(err => {
-        next({
-            code: 404,
-            message: "Data not found"
-        })
+    .catch((error) => {
+      next(error)
     })
   }
 
@@ -119,10 +96,7 @@ class productController {
         res.status(200).json({ message: 'Product success to delete'})
     })
     .catch((error) => {
-        next({
-            code: 404,
-            message: "Data not found"
-        })
+      next(error)
     })
   }
 }
