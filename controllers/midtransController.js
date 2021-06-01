@@ -50,7 +50,7 @@ class MidtransController {
 				Accept: 'application/json',
 				Authorization:
 					'Basic ' +
-					Buffer.from('SB-Mid-server-OkJLecqkB5bPgBQhcPsJCKWY').toString(
+					Buffer.from('SB-Mid-server-49N3DSl3CDLcYTrkloIpfJsm').toString(
 						'base64'
 					),
 			},
