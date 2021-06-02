@@ -16,4 +16,6 @@ app.use(router)
 
 app.use(errorHandler)
 
-module.exports = app
+app.listen(3000, () => {
+    console.log(`Sever is listening to port 3000`)
+})
