@@ -1,7 +1,3 @@
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config()
-}
-
 const router = require('./routes/index')
 const express = require('express')
 const cors = require('cors')
